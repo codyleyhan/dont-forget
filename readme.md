@@ -1,7 +1,5 @@
 # Don't Forget!
 
-------
-
 Simple recipe book with integrated shopping list.  Stores recipes and generates
 a shopping list depending on what is on the menu for the week.
 
