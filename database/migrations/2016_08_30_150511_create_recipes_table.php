@@ -18,6 +18,7 @@ class CreateRecipesTable extends Migration
 						$table->integer('user_id')->unsigned()->index();
 						$table->integer('category_id')->unsigned()->index();
 						$table->string('name');
+						$table->string('meal_time');
 						$table->text('description');
 						$table->boolean('in_list')->default(false);
 						$table->integer('num_of_people')->nullable();

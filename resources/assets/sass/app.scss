@@ -7,3 +7,24 @@
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+	border: none;
+}
+
+
+.ingredients-list {
+	margin-top: 2em;
+}
+
+.list-delete {
+	margin-right: 1.5em;
+}

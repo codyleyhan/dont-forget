@@ -18,3 +18,15 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+/*
+|--------------------------------------------------------------------------
+| Recipe Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/recipes', 'RecipesController@index');
+Route::get('/recipes/create', 'RecipesController@create');
+Route::post('/recipes', 'RecipesController@store');
+
+Route::get('/recipes/{recipe}', 'RecipesController@show');

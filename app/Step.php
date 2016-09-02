@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Step extends Model
 {
+		protected $fillable = ['recipe_id', 'description'];
+		
     public function recipe()
     {
-    	$this->belongsTo(Recipe::class);
+    	return $this->belongsTo(Recipe::class);
     }
 }

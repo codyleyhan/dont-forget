@@ -6,24 +6,26 @@ use Illuminate\Database\Eloquent\Model;
 
 class Recipe extends Model
 {
+		protected $fillable = ['user_id', 'category_id', 'name', 'description',
+			'in_list', 'meal_time', 'num_of_people', 'prep_time', 'cook_time'];
 
 		public function category()
 		{
-			$this->belongsTo(Category::class);
+			return $this->belongsTo(Category::class);
 		}
 
 		public function ingredients()
     {
-    	$this->hasMany(Ingredient::class);
+    	return $this->hasMany(Ingredient::class);
     }
 
 		public function steps()
 		{
-			$this->hasMany(Step::class);
+			return $this->hasMany(Step::class);
 		}
 
 		public function user()
 		{
-			$this->belongsTo(User::class);
+			return $this->belongsTo(User::class);
 		}
 }
