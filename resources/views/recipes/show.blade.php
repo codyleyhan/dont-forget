@@ -1,7 +1,7 @@
 @extends('layouts.app') @section('content')
 <div class="container">
 	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
+		<div class="col-md-10 col-md-offset-1">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 						<h1>{{ $recipe->name }} <small>Serves {{ $recipe->num_of_people }}</small></h1>
@@ -10,7 +10,7 @@
 				<div class="panel-body">
 					<div class="row text-center">
 						<div class="col-md-4">
-							Prepped in {{ $recipe->prep_time }} minutes
+							Prepared in {{ $recipe->prep_time }} minutes
 						</div>
 						<div class="col-md-4">
 							Cooked in {{ $recipe->cook_time }} minutes
@@ -68,6 +68,15 @@
 							</ul>
 						</div>
 
+						<div class="col-md-6">
+							<a href="/recipes/{{ $recipe->id }}/edit"><button type="button" class="btn btn-info btn-block">Edit</button></a>
+						</div>
+						<div class="visible-sm-*">
+							<br>
+						</div>
+						<div class="col-md-6">
+							<button type="button" class="btn btn-danger btn-block">Delete</button>
+						</div>
 
 					</div>
 				</div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Gate;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
@@ -13,6 +14,9 @@ use App\Step;
 
 class RecipesController extends Controller
 {
+		/**
+		 * Custom messages for validation on recipes
+		 */
 		private $messages = [
 			'name.required' => 'We need to name that recipe!',
 			'num_of_people.required' => 'How many people does that feed again?',
@@ -26,10 +30,12 @@ class RecipesController extends Controller
 			'cook_time.min' => 'It shoud be no time or greater to cook this meal.'
 		];
 
+
 		public function __construct()
 		{
 				$this->middleware('auth');
 		}
+
 
     public function index()
     {
@@ -42,6 +48,11 @@ class RecipesController extends Controller
 			]);
     }
 
+		/**
+		 * GET
+		 * Page that displays form to create a recipe
+		 * @return view rendered html back to user
+		 */
 		public function create()
 		{
 			$categories = Category::all();
@@ -51,9 +62,14 @@ class RecipesController extends Controller
 			]);
 		}
 
+		/**
+		 * Handles post request from the create recipe page with validation
+		 * and inserts recipe into DB
+		 * @param  Request $request request from the user
+		 * @return redirect  redirects user back to index page
+		 */
 		public function store(Request $request)
 		{
-			//return $request->ingredients[0];
 
 			$this->validate($request, [
 				'name' => ['required', 'min:3'],
@@ -70,7 +86,7 @@ class RecipesController extends Controller
 			], $this->messages);
 
 
-
+			// standardizes category
 			$request->category = strtolower($request->category);
 
 			$category = Category::firstOrNew([
@@ -118,11 +134,49 @@ class RecipesController extends Controller
 			return redirect()->action('RecipesController@index')->with('status', 'Recipe Added');
 		}
 
+
 		public function show(Recipe $recipe)
 		{
 			$recipe->load('category');
 			return view('recipes.show', [
 				'recipe' => $recipe
 			]);
+		}
+
+		public function edit(Recipe $recipe)
+		{
+			if(!Gate::allows('owns-recipe', $recipe)) {
+				abort(403, 'This is not your recipe.');
+			}
+
+			$recipe->load('category', 'ingredients', 'steps');
+
+			$categories = Category::all();
+
+			return view('recipes.edit', [
+				'recipe' => $recipe,
+				'categories' => $categories
+			]);
+		}
+
+		public function update(Request $request)
+		{
+
+
+			$this->validate($request, [
+				'name' => ['required', 'min:3'],
+				'category' => ['required', 'min:3'],
+				'description' => ['required', 'min:3'],
+				'num_of_people' => ['required', 'min:0', 'numeric'],
+				'prep_time' => ['required', 'min:0', 'numeric'],
+				'cook_time' => ['required', 'min:0', 'numeric'],
+				'ingredients' => ['required', 'min:1'],
+				'ingredients.*.amount' =>['required', 'min:3'],
+				'ingredients.*.name' =>['required', 'min:3'],
+				'steps' => ['required', 'min:1'],
+				'steps.*.description' => ['required', 'min:3']
+			], $this->messages);
+
+
 		}
 }

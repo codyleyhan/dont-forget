@@ -30,3 +30,4 @@ Route::get('/recipes/create', 'RecipesController@create');
 Route::post('/recipes', 'RecipesController@store');
 
 Route::get('/recipes/{recipe}', 'RecipesController@show');
+Route::get('/recipes/{recipe}/edit', 'RecipesController@edit');
