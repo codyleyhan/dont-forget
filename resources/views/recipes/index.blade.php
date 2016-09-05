@@ -20,7 +20,7 @@
 							<li class="list-group-item">
 								<a href="/recipes/{{$recipe->id}}">{{ $recipe->name }}</a>
 								<span> - </span>
-								<span>{{ substr($recipe->description,0,29)}}...</span>
+								{{ substr($recipe->description,0,49)}}...
 								<span class="badge">{{$recipe->category->name}}</span>
 							</li>
 							@endforeach
