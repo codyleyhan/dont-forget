@@ -26,6 +26,15 @@ class CreateRecipesTable extends Migration
 						$table->integer('cook_time')->unsigned();
             $table->timestamps();
         });
+
+				Schema::table('recipes', function($table) {
+					$table->foreign('user_id')
+						->references('id')->on('users')
+						->onDelete('cascade');
+					$table->foreign('category_id')
+						->references('id')->on('categories')
+						->onDelete('cascade');
+				});
     }
 
     /**

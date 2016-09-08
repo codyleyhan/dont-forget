@@ -13,7 +13,6 @@ require('./bootstrap');
  * the application, or feel free to tweak this setup for your needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
 
 const app = new Vue({
     el: '#ingredient-list',
@@ -34,6 +33,12 @@ const app = new Vue({
 					this.newIngredient= '';
 					this.newAmount = '';
 				}
+			},
+
+			test: function() {
+				this.$http.put('/recipes/13', this.data).then(data => {
+					console.log(data);
+				});
 			},
 
 			removeIngredient: function(index) {

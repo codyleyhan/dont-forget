@@ -31,3 +31,13 @@ Route::post('/recipes', 'RecipesController@store');
 
 Route::get('/recipes/{recipe}', 'RecipesController@show');
 Route::get('/recipes/{recipe}/edit', 'RecipesController@edit');
+Route::put('/recipes/{recipe}', 'RecipesController@update');
+
+/*
+|--------------------------------------------------------------------------
+| Ingredient Routes
+|--------------------------------------------------------------------------
+*/
+Route::delete('/ingredients/{ingredient}', 'IngredientsController@delete');
+Route::post('/ingredients', 'IngredientsController@store');
+Route::put('/ingredients/{ingredient}', 'IngredientsController@update');

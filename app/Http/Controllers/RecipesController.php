@@ -159,8 +159,12 @@ class RecipesController extends Controller
 			]);
 		}
 
-		public function update(Request $request)
+		public function update(Request $request, Recipe $recipe)
 		{
+
+			if(!Gate::allows('owns-recipe', $recipe)) {
+				abort(403, 'This is not your recipe.');
+			}
 
 
 			$this->validate($request, [
@@ -169,14 +173,28 @@ class RecipesController extends Controller
 				'description' => ['required', 'min:3'],
 				'num_of_people' => ['required', 'min:0', 'numeric'],
 				'prep_time' => ['required', 'min:0', 'numeric'],
-				'cook_time' => ['required', 'min:0', 'numeric'],
-				'ingredients' => ['required', 'min:1'],
-				'ingredients.*.amount' =>['required', 'min:3'],
-				'ingredients.*.name' =>['required', 'min:3'],
-				'steps' => ['required', 'min:1'],
-				'steps.*.description' => ['required', 'min:3']
+				'cook_time' => ['required', 'min:0', 'numeric']
 			], $this->messages);
 
+			// standardizes category
+			$request->category = strtolower($request->category);
 
+			$category = Category::firstOrNew([
+				'name' => $request->category
+			]);
+
+			$category->save();
+
+
+			$recipe->name = $request->name;
+			$recipe->description = $request->description;
+			$recipe->meal_time = $request->meal_time;
+			$recipe->num_of_people = $request->num_of_people;
+			$recipe->prep_time = $request->prep_time;
+			$recipe->cook_time = $request->cook_time;
+
+			$category->recipes()->save($recipe);
+
+			return redirect()->action('RecipesController@index')->with('status', 'Recipe Updated');
 		}
 }
